@@ -1,0 +1,26 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "src": "src/pages/Setup.tsx"
+    },
+    {
+      "path": "/dashboard",
+      "src": "src/pages/Dashboard.tsx"
+    },
+    {
+      "path": "/coin/:id",
+      "src": "src/pages/CoinDetail.tsx"
+    },
+    {
+      "path": "/settings",
+      "src": "src/pages/Settings.tsx"
+    }
+  ],
+  "components": [
+    {"name": "DashboardLayout", "src": "src/components/DashboardLayout.tsx"},
+    {"name": "AssetCard", "src": "src/components/AssetCard.tsx"},
+    {"name": "TransactionHistory", "src": "src/components/TransactionHistory.tsx"},
+    {"name": "RecoveryGrid", "src": "src/components/RecoveryGrid.tsx"}
+  ]
+}

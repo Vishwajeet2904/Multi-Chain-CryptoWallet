@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexusVault - Multi-Chain Crypto Wallet</title>
+    <meta name="description" content="Secure multi-chain crypto wallet supporting Ethereum, Solana, and Bitcoin" />
+    <meta name="author" content="NexusVault" />
+    <meta property="og:image" content="/og-image.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script>
+      // Enhanced polyfills for Node.js globals in browser
+      if (typeof global === 'undefined') {
+        var global = globalThis;
+      }
+      
+      if (typeof process === 'undefined') {
+        var process = {
+          env: { NODE_ENV: 'development' },
+          version: 'v16.0.0',
+          versions: { node: '16.0.0' },
+          nextTick: function(fn) { 
+            return Promise.resolve().then(fn);
+          },
+          browser: true,
+          argv: [],
+          binding: function() { return {}; },
+          cwd: function() { return '/'; },
+          chdir: function() {},
+          umask: function() { return 0; },
+          platform: 'browser',
+          arch: 'x64'
+        };
+      }
+      
+      // Enhanced Buffer polyfill
+      if (typeof Buffer === 'undefined') {
+        class BufferPolyfill extends Uint8Array {
+          constructor(data, encoding) {
+            if (typeof data === 'string') {
+              const encoder = new TextEncoder();
+              super(encoder.encode(data));
+            } else if (typeof data === 'number') {
+              super(data);
+            } else if (data instanceof ArrayBuffer || data instanceof Uint8Array) {
+              super(data);
+            } else {
+              super(0);
+            }
+          }
+          
+          static from(data, encoding) {
+            return new BufferPolyfill(data, encoding);
+          }
+          
+          static alloc(size, fill) {
+            const buf = new BufferPolyfill(size);
+            if (fill !== undefined) {
+              buf.fill(fill);
+            }
+            return buf;
+          }
+          
+          static isBuffer(obj) {
+            return obj instanceof BufferPolyfill || obj instanceof Uint8Array;
+          }
+          
+          toString(encoding) {
+            if (encoding === 'hex') {
+              return Array.from(this).map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+            return new TextDecoder().decode(this);
+          }
+          
+          slice(start, end) {
+            return new BufferPolyfill(super.slice(start, end));
+          }
+        }
+        
+        var Buffer = BufferPolyfill;
+        globalThis.Buffer = Buffer;
+      }
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

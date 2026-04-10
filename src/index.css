@@ -1,0 +1,114 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--fontSans);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --shadow-x: var(--shadow-x);
+  --shadow-y: var(--shadow-y);
+  --shadow-blur: var(--shadow-blur);
+  --shadow-spread: var(--shadow-spread);
+  --shadow-color: var(--shadow-color);
+}
+
+:root {
+  --fontSans: "Inter", system-ui, sans-serif;
+  
+  /* Deep Dark Theme by Default */
+  --background: rgb(10, 10, 14);
+  --foreground: rgb(237, 237, 237);
+  
+  /* Glassy Card - Slightly lighter than bg */
+  --card: rgba(22, 22, 28, 0.7);
+  --card-foreground: rgb(237, 237, 237);
+  
+  --popover: rgb(22, 22, 28);
+  --popover-foreground: rgb(237, 237, 237);
+  
+  /* Electric Violet/Blue Primary */
+  --primary: rgb(124, 58, 237);
+  --primary-foreground: rgb(255, 255, 255);
+  
+  --secondary: rgb(39, 39, 42);
+  --secondary-foreground: rgb(237, 237, 237);
+  
+  --muted: rgb(39, 39, 42);
+  --muted-foreground: rgb(161, 161, 170);
+  
+  --accent: rgba(124, 58, 237, 0.15);
+  --accent-foreground: rgb(237, 237, 237);
+  
+  --destructive: rgb(220, 38, 38);
+  --destructive-foreground: rgb(255, 255, 255);
+  
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: rgb(124, 58, 237);
+  
+  --radius: 0.75rem;
+
+  --chart-1: rgb(124, 58, 237);
+  --chart-2: rgb(59, 130, 246);
+  --chart-3: rgb(16, 185, 129);
+  --chart-4: rgb(245, 158, 11);
+  --chart-5: rgb(239, 68, 68);
+
+  --shadow-x: 0px;
+  --shadow-y: 8px;
+  --shadow-blur: 24px;
+  --shadow-spread: -4px;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(88, 28, 135, 0.15) 0%, transparent 25%), 
+      radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 25%);
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .shadow-custom {
+    box-shadow: var(--shadow-x) var(--shadow-y) var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
+  }
+  .glass {
+    @apply bg-card backdrop-blur-md border border-white/10;
+  }
+  .glass-hover {
+    @apply hover:bg-white/5 transition-colors duration-200;
+  }
+}
