@@ -29,10 +29,10 @@ const initECC = async () => {
 initECC().catch(console.error);
 
 // --- RPC URLs ---
-// V IMPORTANT: REPLACE WITH YOUR ACTUAL GETBLOCK API KEY
-const ETH_RPC_URL = 'https://go.getblock.us/81990708e37a492c89af1f1b7a82cb9a';
-export const SOL_RPC_URL = 'https://go.getblock.us/bbcb5a2482ba4a86a3d1e633fcdb36fe';
-const SEPOLIA_RPC_URL = 'https://ethereum-sepolia.publicnode.com'; // Public Sepolia RPC
+// Set these in your .env file as VITE_ETH_RPC_URL, VITE_SOL_RPC_URL, VITE_SEPOLIA_RPC_URL
+const ETH_RPC_URL = import.meta.env.VITE_ETH_RPC_URL || 'https://go.getblock.us/81990708e37a492c89af1f1b7a82cb9a';
+export const SOL_RPC_URL = import.meta.env.VITE_SOL_RPC_URL || 'https://go.getblock.us/bbcb5a2482ba4a86a3d1e633fcdb36fe';
+const SEPOLIA_RPC_URL = import.meta.env.VITE_SEPOLIA_RPC_URL || 'https://ethereum-sepolia.publicnode.com';
 
 // --- Balance Fetching ---
 export async function getEthBalance(address) {
@@ -318,4 +318,4 @@ export async function getBtcTransactions(address) {
     console.error("Failed to fetch BTC transactions:", error);
     return [];
   }
-}
+}
