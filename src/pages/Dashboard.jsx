@@ -178,6 +178,7 @@ const Dashboard = () => {
             icon=""
             color="#FF9900"
             loading={balanceLoading || priceLoading}
+            isTestnet={true}
           />
         </div>
       </div>

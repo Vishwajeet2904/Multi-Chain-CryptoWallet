@@ -1,7 +1,7 @@
-import { ArrowUpRight, ArrowDownRight, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, TrendingUp, FlaskConical } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const AssetCard = ({ id, name, symbol, amount, value, price, change, icon, color, loading }) => {
+const AssetCard = ({ id, name, symbol, amount, value, price, change, icon, color, loading, isTestnet }) => {
   const navigate = useNavigate();
   const isPositive = change >= 0;
 
@@ -27,10 +27,18 @@ const AssetCard = ({ id, name, symbol, amount, value, price, change, icon, color
                 </div>
             </div>
             
-            <div className={`flex items-center gap-1 text-sm font-medium px-2 py-1 rounded-full ${isPositive ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
-                {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-                {typeof change === 'number' ? change.toFixed(2) : change}%
-            </div>
+            {/* Testnet badge OR price change badge */}
+            {isTestnet ? (
+                <div className="flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                    <FlaskConical size={12} />
+                    Testnet
+                </div>
+            ) : (
+                <div className={`flex items-center gap-1 text-sm font-medium px-2 py-1 rounded-full ${isPositive ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
+                    {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                    {typeof change === 'number' ? change.toFixed(2) : change}%
+                </div>
+            )}
         </div>
 
         <div className="relative z-10">
@@ -42,10 +50,22 @@ const AssetCard = ({ id, name, symbol, amount, value, price, change, icon, color
             ) : (
                 <>
                     <div className="flex items-baseline justify-between">
-                        <h4 className="text-2xl font-bold text-white mb-1">{value}</h4>
-                        <span className="text-xs text-gray-500 font-medium">Price: {price}</span>
+                        {/* Testnet: show balance only, no dollar value */}
+                        {isTestnet ? (
+                            <h4 className="text-2xl font-bold text-white mb-1">{amount} <span className="text-lg text-orange-400">{symbol}</span></h4>
+                        ) : (
+                            <h4 className="text-2xl font-bold text-white mb-1">{value}</h4>
+                        )}
+                        <span className="text-xs text-gray-500 font-medium">
+                            {isTestnet ? 'No real value' : `Price: ${price}`}
+                        </span>
                     </div>
-                    <p className="text-sm text-muted-foreground">{amount} {symbol}</p>
+                    {!isTestnet && (
+                        <p className="text-sm text-muted-foreground">{amount} {symbol}</p>
+                    )}
+                    {isTestnet && (
+                        <p className="text-xs text-orange-400/70 mt-1">Free testnet tokens for development</p>
+                    )}
                 </>
             )}
         </div>
